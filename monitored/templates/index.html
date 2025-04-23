@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Monitor</title>
+    <script>
+        async function getStatus() {
+            const response = await fetch('/status');
+            const data = await response.json();
+            document.getElementById('cpu').textContent = data.cpu_usage + '%';
+            document.getElementById('battery').textContent = data.battery_percent ? data.battery_percent + '%' : 'N/A';
+            document.getElementById('temp').textContent = data.cpu_temperature ? data.cpu_temperature + ' °C' : 'N/A';
+            document.getElementById('disk').textContent = data.disk_usage ? data.disk_usage + '%' : 'N/A';
+        }
+
+        setInterval(getStatus, 2000); // Aggiorna ogni 2 secondi
+        window.onload = getStatus;
+
+        function updateCpuGraph() {
+            document.getElementById('cpuGraph').src = '/cpu_graph?' + new Date().getTime();
+        }
+
+        function updateBatteryGraph() {
+            document.getElementById('batteryGraph').src = '/battery_graph?' + new Date().getTime();
+        }
+
+        function updateTemperatureGraph() {
+            document.getElementById('temperatureGraph').src = '/temperature_graph?' + new Date().getTime();
+        }
+
+        // Manteniamo l'aggiornamento automatico per gli altri grafici
+        setInterval(updateCpuGraph, 2000); // Aggiorna il grafico CPU ogni 2 secondi
+        setInterval(updateBatteryGraph, 2000); // Aggiorna il grafico batteria ogni 2 secondi
+        setInterval(updateTemperatureGraph, 2000); // Aggiorna il grafico temperatura ogni 2 secondi
+        
+        // Aggiorna il grafico del disco una sola volta al caricamento della pagina
+        window.onload = function() {
+            updateDiskGraph();
+        }
+
+        function updateDiskGraph() {
+            document.getElementById('diskGraph').src = '/disk_graph?' + new Date().getTime();
+        }
+    </script>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #d4f4dd; /* Azzurro-lime chiaro */
+        color: #222;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #006644;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        background-color: #ffffff;
+        border-collapse: collapse;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-size: 18px;
+    }
+
+    th {
+        background-color: #b2f2bb;
+        font-weight: bold;
+        color: #006644;
+    }
+
+    td {
+        background-color: #f9f9f9;
+    }
+
+    img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        padding: 10px;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        th, td {
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        img {
+            max-width: 90%;
+        }
+    }
+</style>
+</head>
+<body>
+     <h1>System Monitor</h1>
+
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>CPU Usage</td>
+            <td><span id="cpu">56.8%</span></td>
+        </tr>
+        <tr>
+            <td>Battery Level</td>
+            <td><span id="battery">100%</span></td>
+        </tr>
+        <tr>
+            <td>CPU Temperature</td>
+            <td><span id="temp">67 °C</span></td>
+        </tr>
+        <tr>
+            <td>Disk Usage</td>
+            <td><span id="disk">4.1%</span></td>
+        </tr>
+    </table>
+
+    <h2>CPU Usage Graph</h2>
+    <img id="cpuGraph" src="/cpu_graph" alt="CPU Graph" />
+
+    <h2>Battery Level Graph</h2>
+    <img id="batteryGraph" src="/battery_graph" alt="Battery Graph" />
+
+    <h2>CPU Temperature Graph</h2>
+    <img id="temperatureGraph" src="/temperature_graph" alt="Temperature Graph" />
+
+    <h2>Disk Usage Pie Chart</h2>
+    <img id="diskGraph" src="/disk_graph" alt="Disk Usage Pie Chart" />
+</body>
+</html>
