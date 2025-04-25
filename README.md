@@ -69,11 +69,22 @@ L'applicazione è composta da un server Flask che raccoglie i dati di sistema at
       venv\Scripts\activate
       ```
 
+
+
+
 5. **Installa le dipendenze:**
    Installa tutte le librerie necessarie per eseguire il progetto:
     ```bash
     pip install -r requirements.txt
+    
     ```
+
+ Installazione librerie per    sensori 
+sudo apt update
+sudo apt install python3-smbus
+sudo apt install python3-pip
+pip3 install bme280
+    
 
 6. **Avvia il server Flask:**
    Avvia l'applicazione Flask con il comando:
