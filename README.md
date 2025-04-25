@@ -45,12 +45,12 @@ L'applicazione è composta da un server Flask che raccoglie i dati di sistema at
 1. **Clona il repository:**
    Prima di tutto, clona il repository sul tuo computer locale:
     ```bash
-    git clone https://github.com/tuo-utente/tuo-progetto.git
+    git clone https://github.com/Salnet86/FlaskMonitoredCPU.git
     ```
 
 2. **Entra nella directory del progetto:**
     ```bash
-    cd tuo-progetto
+    cd FlaskMonitoredCPU
     ```
 
 3. **Crea un ambiente virtuale (Opzionale ma consigliato):**
